@@ -1,0 +1,46 @@
+<td>
+	<button name="total" type="submit" class="btn btn-primary">Selesai</button>
+</td>
+
+<td>
+    <?php 
+        require '../connect.php';
+		
+		/*
+			Isi connect.php
+			
+			<?php
+				$db_host		= 'localhost';
+				$db_user		= 'root';
+				$db_pass		= '';
+				$db_database	= 'cobasmarten'; 
+
+				$db = new PDO('mysql:host='.$db_host.';dbname='.$db_database, $db_user, $db_pass);
+				$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			?>
+		*/
+		
+        if (isset($_POST['total'])) {
+            $total = $_POST['1'] + $_POST['2'] + $_POST['3'] +  $_POST['4'] +  $_POST['5'] +  $_POST['6'] +  $_POST['7'] +  $_POST['8'] +  $_POST['9'] +  $_POST['10'];
+           
+            if ($total >= 9) {
+                $status_perkembangan = "Sesuai";
+            } elseif ($total > 6 && $total < 9) {
+                $status_perkembangan = "Meragukan";
+            } elseif ($total <= 6) {
+                $status_perkembangan = "Penyimpangan";
+            } else {
+                echo "Tidak Valid";
+            }
+            
+            $sql = mysqli_query($db, "INSERT INTO hasil_periksa (jumlah_ya, status_perkembangan) VALUES('$jumlah_ya','$status_perkembangan')");
+            if ($sql) {
+                $row['status_perkembangan'] = $status_perkembangan;
+                echo "<script>alert('Tunggu Sebentar');document.location.href='jawabankpsp.php';</script>";
+            }else{
+                echo $sql;
+                echo mysqli_error($connect);
+            } 
+        }	
+    ?>
+</td>
